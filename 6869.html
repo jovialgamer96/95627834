@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Wedding Anniversary! 💕</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&display=swap');
+        
+        body { font-family: 'Playfair Display', serif; }
+        .title-font { font-family: 'Dancing Script', cursive; }
+
+        .heart { animation: heartbeat 1.5s infinite; }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+        .flower { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-red-50 to-yellow-100 min-h-screen">
+
+    <div class="max-w-2xl mx-auto py-12 px-4">
+        <div class="bg-white rounded-3xl overflow-hidden border-8 border-pink-200 shadow-2xl">
+
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-pink-500 to-red-500 text-white py-8 px-6 text-center">
+                <div class="flex justify-center gap-4 mb-4">
+                    <i class="fas fa-heart text-5xl heart"></i>
+                    <i class="fas fa-ring text-5xl heart" style="animation-delay: 0.5s;"></i>
+                    <i class="fas fa-heart text-5xl heart"></i>
+                </div>
+                <h1 class="text-5xl md:text-6xl title-font">happy wedding anniversary!</h1>
+                <p class="text-xl mt-3">To the the best parrents</p>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8 md:p-12 text-center">
+                
+                <div class="mx-auto w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border-8 border-white shadow-xl mb-8">
+                    <img src="https://picsum.photos/id/1015/800/800" alt="Mom & Dad" class="w-full h-full object-cover">
+                </div>
+
+                <h2 class="text-4xl font-bold text-gray-800">Mom & Dad</h2>
+                <p class="text-pink-600 text-xl mb-8">Celebrating <span class="font-bold">19th</span> anniversary</p>
+
+                <p class="text-lg leading-relaxed text-gray-700 max-w-md mx-auto">
+                    you continues to inspire us every day.thank you for everything.
+                </p>
+
+                <!-- Gift Section -->
+                <div class="my-10 bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-2xl p-6">
+                    <p class="text-pink-600 font-medium mb-3">🎁 A Special Gift from Us</p>
+                    <p class="text-xl font-semibold text-gray-800 mb-4">
+                        as a present you can use <span class="text-rose-600 font-bold">lm studio</span> for free AI
+                    </p>
+                    
+                    <!-- Download Button -->
+                    <a href="https://lmstudio.ai/?ref=producthunt" 
+                       target="_blank"
+                       class="inline-flex items-center gap-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold px-8 py-4 rounded-2xl text-lg shadow-lg transition-all hover:scale-105 active:scale-95">
+                        <i class="fas fa-download"></i>
+                        download lm studio now
+                    </a>
+                    
+                    <p class="text-xs text-gray-500 mt-4">
+                        i will set it up for u.
+                    </p>
+                </div>
+
+                <button onclick="celebrate()" 
+                        class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold px-10 py-4 rounded-2xl text-lg shadow-lg transition-all">
+                    <i class="fas fa-gift mr-2"></i>
+                    Click for Confetti Surprise!
+                </button>
+            </div>
+
+            <div class="bg-pink-50 py-6 text-center text-pink-600 text-sm">
+                <p>you are the best parents in the world</p>
+                <p class="mt-1">happy wedding anniversary • May 21, 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="confetti" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <script>
+        function celebrate() {
+            const canvas = document.getElementById('confetti');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const ctx = canvas.getContext('2d');
+            const colors = ['#ec4899', '#f43f5e', '#eab308', '#22c55e', '#8b5cf6'];
+            let particles = [];
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height - canvas.height;
+                    this.size = Math.random() * 12 + 8;
+                    this.speed = Math.random() * 7 + 5;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.angle = Math.random() * 360;
+                    this.rotation = Math.random() * 0.15 - 0.05;
+                }
+                update() { this.y += this.speed; this.angle += this.rotation; }
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                    ctx.restore();
+                }
+            }
+
+            for(let i = 0; i < 280; i++) particles.push(new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p, i) => {
+                    p.update();
+                    p.draw();
+                    if (p.y > canvas.height) particles[i] = new Particle();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            setTimeout(() => canvas.style.opacity = '0', 7000);
+        }
+    </script>
+</body>
+</html>
